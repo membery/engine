@@ -1,204 +1,228 @@
 (function(angular) {
 	'use strict';
 
-	angular.module('xpsui:services')
-	.factory('xpsui:SecurityService', ['$http', '$rootScope','xpsui:SchemaUtil', function($http, $rootScope,schemaUtilFactory) {
-		var service = {};
+	angular
+			.module('xpsui:services')
+			.factory(
+					'xpsui:SecurityService',
+					[
+							'$http',
+							'$rootScope',
+							'xpsui:SchemaUtil',
+							function($http, $rootScope, schemaUtilFactory) {
+								var service = {};
 
-		service.getLogin = function(user, password) {
-			return $http({
-				method : 'POST',
-				url : '/login/',
-				data : {
-					login : user,
-					password : password
-				}
-			});
-		};
-		service.selectProfile=function(profileId){
-			return $http({
-				method : 'POST',
-				url : '/user/profile/',
-				data : {
-					profileId : profileId
-				}
-			});
-		};
+								service.getLogin = function(user, password, rem) {
+									return $http({
+										method : 'POST',
+										url : '/login/',
+										data : {
+											login : user,
+											password : password,
+											rememberMe : rem
+										}
+									});
+								};
+								service.selectProfile = function(profileId) {
+									return $http({
+										method : 'POST',
+										url : '/user/profile/',
+										data : {
+											profileId : profileId
+										}
+									});
+								};
 
-		service.getCurrentUser = function() {
-			return $http({
-				method : 'GET',
-				url : '/user/current'
-			});
-		};
+								service.getCurrentUser = function() {
+									return $http({
+										method : 'GET',
+										url : '/user/current'
+									});
+								};
 
-		service.getResetPassword = function(userId) {
-			return $http({
-				method : 'POST',
-				url : '/resetPassword/',
-				data : {
-					userId : userId
-				}
-			});
-		};
+								service.getResetPassword = function(userId) {
+									return $http({
+										method : 'POST',
+										url : '/resetPassword/',
+										data : {
+											userId : userId
+										}
+									});
+								};
 
-		service.getChangePassword = function(currentPassword, newPassword) {
-			return $http({
-				method : 'POST',
-				url : '/changePassword',
-				data : {
-					currentPassword : currentPassword,
-					newPassword : newPassword
-				}
-			});
-		};
+								service.getChangePassword = function(
+										currentPassword, newPassword) {
+									return $http({
+										method : 'POST',
+										url : '/changePassword',
+										data : {
+											currentPassword : currentPassword,
+											newPassword : newPassword
+										}
+									});
+								};
 
-		service.getSecurityGroups = function() {
-			var entityUri='uri://registries/security#groupmaster/new';
-			return $http({
-				method : 'POST',
-				url : '/search/'+schemaUtilFactory.encodeUri(entityUri),
-			});
+								service.getSecurityGroups = function() {
+									var entityUri = 'uri://registries/security#groupmaster/new';
+									return $http({
+										method : 'POST',
+										url : '/search/'
+												+ schemaUtilFactory
+														.encodeUri(entityUri),
+									});
 
-		};
-		service.getForgotenToken = function(email,captcha) {
-			return $http({
-				method : 'POST',
-				url : '/forgotten/token/',
-				data : {
-					email : email,
-					captcha: captcha
-				}
-			});
-		};
+								};
+								service.getForgotenToken = function(email,
+										captcha) {
+									return $http({
+										method : 'POST',
+										url : '/forgotten/token/',
+										data : {
+											email : email,
+											captcha : captcha
+										}
+									});
+								};
 
-		service.getForgotenPasswordReset = function(token) {
-			return $http({
-				method : 'GET',
-				url : '/forgotten/reset/'+token
-			});
-		};
-		service.getCaptchaKey = function(token) {
-			return $http({
-				method : 'GET',
-				url : '/captcha/sitekey/'
-			});
-		};
+								service.getForgotenPasswordReset = function(
+										token) {
+									return $http({
+										method : 'GET',
+										url : '/forgotten/reset/' + token
+									});
+								};
+								service.getCaptchaKey = function(token) {
+									return $http({
+										method : 'GET',
+										url : '/captcha/sitekey/'
+									});
+								};
 
-		service.getLogout = function() {
-			return $http({
-				method : 'GET',
-				url : '/logout/',
-			});
-		};
+								service.getLogout = function() {
+									return $http({
+										method : 'GET',
+										url : '/logout/',
+									});
+								};
 
-		service.getSecurityPermissions = function() {
+								service.getSecurityPermissions = function() {
 
-			return $http({
-				method : 'GET',
-				url : '/security/permissions',
+									return $http({
+										method : 'GET',
+										url : '/security/permissions',
 
-			});
+									});
 
-		};
-		service.getSecurityProfiles = function() {
+								};
+								service.getSecurityProfiles = function() {
 
-			return $http({
-				method : 'GET',
-				url : '/security/profiles',
+									return $http({
+										method : 'GET',
+										url : '/security/profiles',
 
-			});
+									});
 
-		};
-		service.getSecuritySearchSchemas= function() {
+								};
+								service.getSecuritySearchSchemas = function() {
 
-			return $http({
-				method : 'GET',
-				url : '/security/search/schemas',
-			});
+									return $http({
+										method : 'GET',
+										url : '/security/search/schemas',
+									});
 
-		};
-		service.getUserPermissions = function(userId) {
+								};
+								service.getUserPermissions = function(userId) {
 
-			return $http({
-				method : 'GET',
-				url : '/user/permissions/' + userId
-			});
+									return $http({
+										method : 'GET',
+										url : '/user/permissions/' + userId
+									});
 
-		};
+								};
 
-		service.updateUserSecurity = function(userId,loginName,email,profiles) {
+								service.updateUserSecurity = function(userId,
+										loginName, email, profiles) {
 
-			return $http({
-				method : 'POST',
-				url : '/user/security/update',
-				data : {
-					userId : userId,
-					loginName: loginName,
-					email: email,
-					profiles : profiles
-				}
-			});
-		};
+									return $http({
+										method : 'POST',
+										url : '/user/security/update',
+										data : {
+											userId : userId,
+											loginName : loginName,
+											email : email,
+											profiles : profiles
+										}
+									});
+								};
 
-		service.updateProfileSecurity = function(profileId,profileName, permissions, groups,crits) {
+								service.updateProfileSecurity = function(
+										profileId, profileName, permissions,
+										groups, crits) {
 
-			return $http({
-				method : 'POST',
-				url : '/security/profile/update',
-				data : {
-					profileId : profileId,
-					profileName: profileName,
-					permissions : permissions,
-					groups : groups,
-					crits: crits
-				}
-			});
-		};
+									return $http({
+										method : 'POST',
+										url : '/security/profile/update',
+										data : {
+											profileId : profileId,
+											profileName : profileName,
+											permissions : permissions,
+											groups : groups,
+											crits : crits
+										}
+									});
+								};
 
-		service.updateSecurityGroup = function(oid, groupName, groupId, permissions, parent) {
+								service.updateSecurityGroup = function(oid,
+										groupName, groupId, permissions, parent) {
 
-			return $http({
-				method : 'POST',
-				url : '/group/security/update',
-				data : {
-					oid : oid,
-					permissions : permissions,
-					groupName : groupName,
-					groupId : groupId,
-					parent : parent
-				}
-			});
+									return $http({
+										method : 'POST',
+										url : '/group/security/update',
+										data : {
+											oid : oid,
+											permissions : permissions,
+											groupName : groupName,
+											groupId : groupId,
+											parent : parent
+										}
+									});
 
-		};
+								};
 
-		/**
-		 * checks if current user has all required permissions
-		 */
-		service.hasPermissions = function(requiredPermissions) {
-			if (!requiredPermissions || requiredPermissions.length < 1) {
-				// there are no permissions to check, so we have
-				// permission
-				return true;
-			}
+								/**
+								 * checks if current user has all required
+								 * permissions
+								 */
+								service.hasPermissions = function(
+										requiredPermissions) {
+									if (!requiredPermissions
+											|| requiredPermissions.length < 1) {
+										// there are no permissions to check, so
+										// we have
+										// permission
+										return true;
+									}
 
-			if ($rootScope.security.currentUser && $rootScope.security.currentUser.systemCredentials && $rootScope.security.currentUser.systemCredentials.login &&
-			 $rootScope.security.currentUser.systemCredentials.permissions) {
-				for ( var i in requiredPermissions) {
-					if ($rootScope.security.currentUser.systemCredentials.permissions[requiredPermissions[i]] !== true) {
-						// missing permission
-						return false;
-					}
-				}
+									if ($rootScope.security.currentUser
+											&& $rootScope.security.currentUser.systemCredentials
+											&& $rootScope.security.currentUser.systemCredentials.login
+											&& $rootScope.security.currentUser.systemCredentials.permissions) {
+										for ( var i in requiredPermissions) {
+											if ($rootScope.security.currentUser.systemCredentials.permissions[requiredPermissions[i]] !== true) {
+												// missing permission
+												return false;
+											}
+										}
 
-				return true;
-			} else {
-				// non valid current user, no permissions
-				return false;
-			}
-		};
+										return true;
+									} else {
+										// non valid current user, no
+										// permissions
+										return false;
+									}
+								};
 
-		return service;
-	} ]);
+								return service;
+							} ]);
 
 }(window.angular));
