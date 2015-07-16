@@ -13,3 +13,4 @@ local-config.js
 npm-debug.log
 .idea
 .tern-project
+.jshintrc
