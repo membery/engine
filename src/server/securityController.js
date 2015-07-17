@@ -391,12 +391,12 @@ var SecurityController = function(mongoDriver, schemaRegistry, options) {
 	 */
 	function deflateUser(user, permissions) {
 		log.silly(permissions);
-		return {id: user.id, systemCredentials: {login: {loginName: user.systemCredentials.login.loginName}, permissions: permissions, profiles: user.systemCredentials.profiles || []}};
+		return {id: user.id, systemCredentials: {login: {loginName: user.systemCredentials.login.loginName}, permissions: permissions, profiles: user.systemCredentials.profiles || []}, photoInfo: {photo: user.photoInfo.photo}};
 	}
 
 
 	/**
-	 * Does login based on provided password and login name. It queries DB and
+	 * Does login based on provided password and login name. It queries DB andho
 	 * if verification of crediatials successed it stores new security token
 	 * into DB and sets that token as cookies.
 	 * 
