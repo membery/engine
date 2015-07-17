@@ -62,7 +62,7 @@
 	<nav>
 		<ul>
 			<li ng-show="hasPermissions(['System User'])"><span class="text-block"
-				><span>{{security.currentUser.systemCredentials.login.loginName}}&nbsp;&nbsp;&nbsp;<i class="icon-user"></i> </span
+				><span>{{security.currentUser.systemCredentials.login.loginName}}&nbsp;&nbsp;&nbsp;<img ng-src="{{security.currentUser.photoInfo.photo}}" width=auto height=32px align="middle" style="PADDING-BOTTOM: 8px"> </span
 			></li>
 			<li ng-show="!hasPermissions(['System User'])"><a href="#/help" target="_blank"><i class="icon-question-circle"></i></a></li>
 			<li ng-show="hasPermissions(['System User'])"><a href="#/help"><i class="icon-question-circle"></i></a></li>
