@@ -391,7 +391,21 @@ var SecurityController = function(mongoDriver, schemaRegistry, options) {
 	 */
 	function deflateUser(user, permissions) {
 		log.silly(permissions);
-		return {id: user.id, systemCredentials: {login: {loginName: user.systemCredentials.login.loginName}, permissions: permissions, profiles: user.systemCredentials.profiles || []}, photoInfo: {photo: user.photoInfo.photo}};
+		
+		if(!user.photoInfo || user.photoInfo.photo === undefined) {
+			user.photoInfo = {};
+			user.photoInfo.photo = 'img/no_photo.jpg';
+		}
+		//user.photoInfo.photo === null || user.photoInfo.photo === undefined
+		log.debug('photo:', user.photoInfo.photo);
+		return {
+			id: user.id, 
+			systemCredentials: {login: {loginName: user.systemCredentials.login.loginName}, 
+			permissions: permissions, profiles: user.systemCredentials.profiles || []}, 
+			photoInfo: {photo: user.photoInfo.photo}, 
+			baseData: {name: user.baseData.name.v, surName: user.baseData.surName.v}
+		};
+
 	}
 
 
