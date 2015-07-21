@@ -9,7 +9,8 @@
 					$scope.logout = function() {
 						SecurityService.getLogout().then(function() {
 							$scope.security.currentUser = undefined;
-							$localStorage.$reset();
+							delete $localStorage.profile;
+							delete $localStorage.rememberMe;
 							$location.path('/login');
 						});
 					};

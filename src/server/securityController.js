@@ -432,12 +432,9 @@ var SecurityController = function(mongoDriver, schemaRegistry, options) {
 		log.debug('login attempt', req.body.login);
 		log.debug('user-agent', req.headers['user-agent']);
 		log.debug('securityToken', req.cookies.securityToken);
+		rem = req.body.rememberMe;
 
-		if(req.body.rememberMe) {
-			rem = true;
-		} else {
-			rem = false;
-		}
+		//log.debug('rememberMeeeeeee', rem);
 
 		var tokenExist = false;
 		var tokenId = req.cookies.securityToken;
@@ -457,7 +454,7 @@ var SecurityController = function(mongoDriver, schemaRegistry, options) {
 
 			if (tokendata.length !== 1) {
 				// we are sure there is exactly one user
-				log.debug('req.body.login', req.body.login);
+				//log.debug('req.body.login', req.body.login);
 				userDao.list(QueryFilter.create().addCriterium(cfg.loginColumnName, QueryFilter.operation.EQUAL, req.body.login), function(err, data) {
 					var user = '';
 					var userId = '';
@@ -1267,13 +1264,18 @@ var SecurityController = function(mongoDriver, schemaRegistry, options) {
 					var token = tokens[0];
 					// TODO validate IP
 					var now = new Date().getTime();
-					var tokenExpiry = cfg.tokenExpiration;
+					var tokenExpiry = now - cfg.tokenExpiration;
+					log.debug('rememberMeRe--------', req.cookies.rememberMe);
 					// TODO if "Remember me" is true, set the token expiry to 0.
-					if(!req.cookies.rememberMe) {
+					if(req.cookies.rememberMe) {
 						tokenExpiry = 0;
+						token.rememberMe = true;
+					} else {
+						tokenExpiry = now - cfg.tokenExpiration;
+						token.rememberMe = false;
 					}
-					
-					if (token.valid && (req.headers['x-forwarded-for'] || req.ip) === token.ip && token.touched > (now - tokenExpiry)) {
+					log.debug('tokenExpiry:--------- ', tokenExpiry);
+					if (token.valid && (req.headers['x-forwarded-for'] || req.ip) === token.ip && token.touched > tokenExpiry) {
 						token.touched = now;
 						// TODO maybe some filtering for updates
 						tokenDao.update(token, function(err) {

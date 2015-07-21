@@ -21,7 +21,7 @@
 								// $scope.password = 'johndoe';
 								$scope.user = '';
 								$scope.password = '';
-								var rem = 'false';
+								var rem = false;
 
 								if ($localStorage.rememberMe === null
 										|| $localStorage.rememberMe === '') {
@@ -29,6 +29,7 @@
 										rememberMe : false,
 										profile : ''
 									});
+									rem = false;
 								} else {
 									$scope.$storage = $localStorage;
 								}
@@ -44,19 +45,18 @@
 									$scope.checkboxModel.value = true;
 									remembermeElement.setAttribute('checked',
 											'checked');
-									rem = 'true';
+									rem = true;
 									SecurityService
 											.getLogin($scope.user,
-													$scope.password, rem)
+													$scope.password, $scope.$storage.rememberMe)
 											.success(
 													function(user) {
-
 														if ($scope.checkboxModel.value) {
 															$scope.$storage.rememberMe = true;
 															$scope.$storage.profile = user.systemCredentials.profiles[0].id;
 														} else {
-															$localStorage
-																	.$reset();
+															delete $localStorage.profile;
+															delete $localStorage.rememberMe;
 															$scope.$storage.rememberMe = false;
 															$scope.$storage.profile = user.systemCredentials.profiles[0].id;
 														}
@@ -98,7 +98,8 @@
 													});
 								} else {
 									$scope.checkboxModel.value = false;
-									$localStorage.$reset();
+									delete $localStorage.profile;
+									delete $localStorage.rememberMe;
 									remembermeElement.setAttribute('checked',
 											'unchecked');
 									rem = 'false';
@@ -117,8 +118,8 @@
 															$scope.$storage.rememberMe = true;
 															$scope.$storage.profile = user.systemCredentials.profiles[0].id;
 														} else {
-															$localStorage
-																	.$reset();
+															delete $localStorage.profile;
+															delete $localStorage.rememberMe;
 															$scope.$storage.rememberMe = false;
 															$scope.$storage.profile = user.systemCredentials.profiles[0].id;
 														}

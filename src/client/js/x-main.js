@@ -330,7 +330,7 @@
 													templateUrl : '/dataset/get/partials/x-help.html',
 													controller : 'xpsui:HelpPageCtrl'
 												});
-								if ($cookies.rememberMe) {
+								if (!$cookies.rememberMe) {
 									$routeProvider.otherwise({
 										templateUrl : '/partials/x-login.html',
 										controller : 'xpsui:SecurityLoginCtrl'
