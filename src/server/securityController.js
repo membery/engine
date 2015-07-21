@@ -1141,7 +1141,7 @@ var SecurityController = function(mongoDriver, schemaRegistry, options) {
 			from: 'websupport@unionsoft.sk',
 			to: email,
 			subject: '[' + serviceUrl + '] Zmena hesla',
-			html: renderService.render(renderModule.templates.MAIL_USER_PASSWORD_RESET_HTML, {userName: userName, userPassword: newPass, serviceUrl: serviceUrl})
+			html: renderService.render(renderModule.templates.MAIL_USER_PASSWORD_RESET, {userName: userName, userPassword: newPass, serviceUrl: serviceUrl})
 		};
 // html : '<h3>New Password</h3><h4> Your new password is: <b>' + newPass + '
 // </b> </h4>'
