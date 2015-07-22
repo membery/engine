@@ -13,8 +13,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-yuidoc');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-karma');
-	grunt.loadNpmTasks('grunt-protractor-runner');
-	grunt.loadNpmTasks('grunt-protractor-webdriver');
+	//grunt.loadNpmTasks('grunt-protractor-runner');
+	//grunt.loadNpmTasks('grunt-protractor-webdriver');
 	grunt.loadNpmTasks('grunt-debug-task');
 	grunt.loadNpmTasks('grunt-express-server');
 
@@ -28,8 +28,8 @@ module.exports = function(grunt) {
 	grunt.registerTask('integrationTest', ['env:test', 'build', 'mochaTest:integration']);
 	grunt.registerTask('coverage', ['env:test', 'build', 'mocha_istanbul']);
 
-	grunt.registerTask('e2e', [ 'env:test', 'build', 'x', 'express', 'e2e:tests' ]);
-	grunt.registerTask('e2e:tests', [ 'protractor:e2e-chrome', /*'protractor:e2e-firefox'*/ ]);
+	//grunt.registerTask('e2e', [ 'env:test', 'build', 'x', 'express', 'e2e:tests' ]);
+	//grunt.registerTask('e2e:tests', [ 'protractor:e2e-chrome', /*'protractor:e2e-firefox'*/ ]);
 
 	/** TODO: Enable this when some smoke tests will exist
 	grunt.registerTask('smoke', [ 'env:test', 'build', 'x', 'express', 'smoke:tests' ]);
@@ -286,32 +286,8 @@ module.exports = function(grunt) {
 					delay: 5000
 				}
 			}
-		},
-		protractor: {
-			'e2e-chrome': {
-				options: {
-					configFile: 'tests/config/e2e.chrome.conf.js'
-				}
-			},
-			'e2e-firefox': {
-				options: {
-					configFile: 'tests/config/e2e.firefox.conf.js'
-				}
-			},
-			'smoke-chrome': {
-				options: {
-					configFile: 'tests/config/smoke.chrome.conf.js'
-				}
-			},
-			'smoke-firefox': {
-				options: {
-					configFile: 'tests/config/smoke.firefox.conf.js'
-				}
-			}
 		}
 	};
-
-
 	config = extend(config, oldConfig);
 	grunt.initConfig(config);
 };
