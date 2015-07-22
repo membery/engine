@@ -23,8 +23,7 @@
 								$scope.password = '';
 								var rem = false;
 
-								if ($localStorage.rememberMe === null
-										|| $localStorage.rememberMe === '') {
+								if (!$localStorage.rememberMe) {
 									$scope.$storage = $localStorage.$default({
 										rememberMe : false,
 										profile : ''
@@ -33,7 +32,7 @@
 								} else {
 									$scope.$storage = $localStorage;
 								}
-
+								$scope.$storage = $localStorage;
 								$scope.checkboxModel = {
 									value : false
 								};
@@ -42,6 +41,7 @@
 								var remembermeElement = document
 										.getElementById('x-rememberme-chk');
 								if ($scope.$storage.rememberMe) {
+									console.log('rememberMe: '+$scope.$storage.rememberMe);
 									$scope.checkboxModel.value = true;
 									remembermeElement.setAttribute('checked',
 											'checked');
@@ -55,8 +55,8 @@
 															$scope.$storage.rememberMe = true;
 															$scope.$storage.profile = user.systemCredentials.profiles[0].id;
 														} else {
-															delete $localStorage.profile;
-															delete $localStorage.rememberMe;
+															//delete $localStorage.profile;
+															//delete $localStorage.rememberMe;
 															$scope.$storage.rememberMe = false;
 															$scope.$storage.profile = user.systemCredentials.profiles[0].id;
 														}
@@ -98,8 +98,9 @@
 													});
 								} else {
 									$scope.checkboxModel.value = false;
-									delete $localStorage.profile;
-									delete $localStorage.rememberMe;
+									//delete $localStorage.profile;
+									//delete $localStorage.rememberMe;
+									$scope.$storage.rememberMe = false;
 									remembermeElement.setAttribute('checked',
 											'unchecked');
 									rem = 'false';
@@ -118,8 +119,8 @@
 															$scope.$storage.rememberMe = true;
 															$scope.$storage.profile = user.systemCredentials.profiles[0].id;
 														} else {
-															delete $localStorage.profile;
-															delete $localStorage.rememberMe;
+															//delete $localStorage.profile;
+															//delete $localStorage.rememberMe;
 															$scope.$storage.rememberMe = false;
 															$scope.$storage.profile = user.systemCredentials.profiles[0].id;
 														}
