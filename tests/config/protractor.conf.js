@@ -10,11 +10,11 @@ var config = {
 	baseUrl: 'http://localhost:3000',
 
 	capabilities: { browserName: 'firefox' },
-	multiCapabilities: [{
-		browserName: 'firefox'
-	}, {
-		browserName: 'chrome'
-	}],
+	/*multiCapabilities: [{browserName: 'firefox'}, {browserName: 'chrome'}],*/
+	jasmineNodeOpts: {
+			showColors: true, // Use colors in the command line report.
+		defaultTimeoutInterval: 180000,
+	},
 
 //	framework: 'mocha',
 

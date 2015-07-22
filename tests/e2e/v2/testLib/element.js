@@ -1,0 +1,31 @@
+module.exports.click = elementInteraction;
+module.exports.check = elementValueCheck;
+
+function elementInteraction(schema, KEY, key) {
+if (!(schema.hasOwnProperty('sequence')) && !(key=='photo')) {
+	if ((schema.hasOwnProperty('enum') || schema.hasOwnProperty('objectLink2'))) {
+		element(by.model('model.obj.'+KEY+'.'+key)).$('.x-dropdown-action').click();   //select-box
+		element(by.model('model.obj.'+KEY+'.'+key)).$('.x-dropdown-content-inner').all(by.css('.x-item')).get(0).click();
+	} else { if (schema.hasOwnProperty('render') && (schema.render.component=="psui-datepicker")) {
+				element(by.model('model.obj.'+KEY+'.'+key)).$('.x-dropdown-action').click();	//Kalendarik
+				element(by.model('model.obj.'+KEY+'.'+key)).$('table').all(by.css('tr')).get(2).all(by.css('td')).get(2).click();
+			} else { if (!(schema.type == 'number')) {element(by.model('model.obj.'+KEY+'.'+key)).$('input').sendKeys(KEY+' '+key);}
+					else {element(by.model('model.obj.'+KEY+'.'+key)).$('input').sendKeys('6');
+				}}}
+}
+}
+
+function elementValueCheck(schema, KEY, key) {
+	if (!(schema.hasOwnProperty('sequence')) && !(key=='photo')) {
+		if ((schema.hasOwnProperty('enum'))) {
+			//expect(element.all(by.model('model.obj.'+KEY+'.'+key)).get(0).$('div').getText()).toEqual(schema['enum'][0]);   //select-box
+			//some elements dont store information in sub element div
+		} else { if (schema.hasOwnProperty('render') && (schema.render.component=="psui-datepicker")) {
+					expect(element.all(by.model('model.obj.'+KEY+'.'+key)).get(0).$('div').getText()).toEqual('8.7.2015');
+				} else { if (!(schema.type == 'number') && !(schema.hasOwnProperty('objectLink2')))
+						{
+							expect(element.all(by.model('model.obj.'+KEY+'.'+key)).get(0).$('div').getText()).toEqual(KEY+' '+key);
+						} else {if (schema.type == 'number') {expect(element.all(by.model('model.obj.'+KEY+'.'+key)).get(0).$('div').getText()).toEqual('6')}}
+	}}
+	}
+}
