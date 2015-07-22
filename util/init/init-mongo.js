@@ -20,7 +20,7 @@ mongoDriver.init(config.mongoDbURI, function(err) {
 
 
 	var masterProfile={
-			"id": "53cd19d5502cd4915bd08724",
+			"id": "55953c2c76fcf774513a69ea",
 			"baseData": {
 				"name": "masterProfile"
 			},
@@ -29,11 +29,14 @@ mongoDriver.init(config.mongoDbURI, function(err) {
 			"security": {
 				"permissions": {
 					"System User": true,
+					"Registry Club": true,
 					"Registry - read": true,
 					"Registry - write": true,
 					"Security - read": true,
 					"Security - write": true,
-					"System Admin": true
+					"Club - write": true,
+					"Club - read": true,
+					"System Admin": true,
 				},
 				"groups": {
 
@@ -41,6 +44,42 @@ mongoDriver.init(config.mongoDbURI, function(err) {
 			}
 		};
 
+	var testProfile={
+			"id": "53cd19d5502cd4915bd08724",
+			"baseData": {
+				"name": "testProfile"
+			},
+			"forcedCriteria": {
+			},
+			"security": {
+				"permissions": {
+					"System User": true,
+					"Registry Club": true,
+					"Registry - read": true,
+					"Registry - write": true,
+					"Security - read": true,
+					"Security - write": true,
+					"Club - write": true,
+					"Club - read": true,
+					//"System Admin": true,
+					"Registry People": true,
+					"Registry Requests": true,
+					"Registry Competitions": true,
+					"RefereeReport - read - KM":true,
+					"RefereeReport - write - KM":true,
+					"Club - read - KM":true,
+					"Club - write - KM":true,
+					"Person - read - KM":true,
+					"Person - write - KM":true,
+					"Requests - read - KM":true,
+					"Requests - write - KM":true,
+					"Portal - write":true,
+				},
+				"groups": {
+
+				}
+			}
+		};
 
 		var defaultProfile={
 			"id": "53cd19d5502cd4915bd08720",
@@ -77,13 +116,15 @@ mongoDriver.init(config.mongoDbURI, function(err) {
 
 
 
-
 	var _dao = new universalDaoModule.UniversalDao(mongoDriver, {
 		collectionName : "people"
 	});
 
 
 	_daoProfiles.save(defaultProfile,function(err){
+		console.log(err);
+	});
+	_daoProfiles.save(testProfile,function(err){
 		console.log(err);
 	});
 	_daoProfiles.save(masterProfile,function(err,data){
@@ -124,7 +165,7 @@ mongoDriver.init(config.mongoDbURI, function(err) {
 						"email": "websupport@unionsoft.sk",
 						"salt": "johndoe"
 					},
-					"profiles": ["53cd19d5502cd4915bd08724"]
+					"profiles": ["55953c2c76fcf774513a69ea"]
 				},
 				"baseData": {
 					"name": "Administrator",
@@ -150,11 +191,17 @@ mongoDriver.init(config.mongoDbURI, function(err) {
 
 			_dao.save(johndoe,function (err,data){
 
-				console.log ('User saved');
-
-				mongoDriver.close();
+				console.log ('User saved '+err);
 				});
 
+			johndoe.systemCredentials.login.loginName='testGeneral';
+			johndoe.baseData.name='TestGeneral';
+			johndoe.systemCredentials.profiles[0]='53cd19d5502cd4915bd08724';
+			johndoe.id='55953f4b76fcf774513a68ec';
+			_dao.save(johndoe, function (err,data){
+				console.log('User saved '+err);
+				mongoDriver.close();
+			});
 			// var janedoe = {
 			// 	"id":"53cf5c54118025ff1b88e367",
 			// 	"systemCredentials": {
