@@ -1,36 +1,60 @@
 {
 	"schemas": {
 		"people": {
-			"url": "https://localhost:3443/schema/compiled/uri~3A~2F~2Fregistries~2Fpeople~23views~2Ffullperson~2Fnew",
+			"url": "http://localhost:3000/schema/compiled/uri~3A~2F~2Fregistries~2Fpeople~23views~2Ffullperson~2Fnew",
 			"schema": "",
 			"listNo": 0,
 			"createNo": 0,
 			"findNo": 1,
-			"dependencies": ["club", "assoc"]
+			"dependencies": ["club", "association"]
 		},
 		"club": {
-			"url": "https://localhost:3443/schema/compiled/uri~3A~2F~2Fregistries~2Forganizations~23views~2Fclub~2Fnew",
+			"url": "http://localhost:3000/schema/compiled/uri~3A~2F~2Fregistries~2Forganizations~23views~2Fclub~2Fnew",
 			"schema": "",
 			"listNo": 2,
 			"createNo": 0,
 			"findNo": 1,
-			"dependencies": ["stadiums", "assoc"]
+			"dependencies": ["stadium", "association"]
 		},
-		"stadiums": {
-			"url": "https://localhost:3443/schema/compiled/uri~3A~2F~2Fregistries~2Fstadiums~23views~2Fstadium~2Fnew",
+		"stadium": {
+			"url": "http://localhost:3000/schema/compiled/uri~3A~2F~2Fregistries~2Fstadiums~23views~2Fstadium~2Fnew",
 			"schema":"",
 			"listNo": 1,
 			"createNo": 0,
 			"findNo": 1,
 			"dependencies": []
 		},
-		"assoc": {
-			"url":"https://localhost:3443/schema/compiled/uri~3A~2F~2Fregistries~2Forganizations~23views~2Fassociation~2Fnew",
+		"association": {
+			"url":"http://localhost:3000/schema/compiled/uri~3A~2F~2Fregistries~2Forganizations~23views~2Fassociation~2Fnew",
 			"schema": "",
 			"listNo": 3,
 			"createNo": 0,
 			"findNo": 1,
-			"dependencies": ["assoc"]
+			"dependencies": ["association"]
+		},
+		"category": {
+			"url":"http://localhost:3000/schema/compiled/uri~3A~2F~2Fregistries~2FageCategory~23views~2FageCategory~2Fnew",
+			"schema": "",
+			"listNo": 6,
+			"createNo": 13,
+			"findNo": 14,
+			"dependencies": []
+		},
+		"seasons":{
+			"url":"http://localhost:3000/schema/compiled/uri~3A~2F~2Fregistries~2Fseasons~23views~2Fseasons~2Fnew",
+			"schema": "",
+			"listNo": 6,
+			"createNo": 11,
+			"findNo": 12,
+			"dependencies": []
+		},
+		"competitions": {
+			"url":"http://localhost:3000/schema/compiled/uri~3A~2F~2Fregistries~2Fcompetitions~23views~2Fcompetitions~2Fnew",
+			"schema": "",
+			"listNo": 6,
+			"createNo": 0,
+			"findNo": 1,
+			"dependencies": ["category","seasons"]
 		}
 	}
 }
