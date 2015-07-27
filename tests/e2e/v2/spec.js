@@ -1,4 +1,4 @@
-var serverFullURL = 'https://localhost:3443';
+var serverFullURL = 'http://localhost:3000';
 var user = 'testGeneral';
 var password = 'johndoe';
 var interact = require('./testLib/interact.js');
@@ -18,7 +18,8 @@ var options = {
      }
 };
 
-var schemas = require('../../../data/test_config.json').schemas;
+//var schemas = require('../../../data/tests/e2e_test_config.json').schemas;
+var schemas = require('./test_config.json').schemas;
 describe('General test:', function() {
 
 	beforeEach(function() {
@@ -53,7 +54,7 @@ describe('General test:', function() {
 	});
 
 	for (key in schemas) {
-		if (1==1) {
+		if (key==key) {
 		(function(key) {
 			it('should create '+key, function() {
 				console.log(schemas[key].schema.title);
