@@ -33,6 +33,7 @@
 					this.imageProcessed = function(blob) {}
 			},
 			link: function(scope, elm, attrs, ctrls) {
+
 				var fileButton = angular.element('<input type="file" style="display: none;"></input>');
 				var chooseFileButton = angular.element(
 						'<button class="btn-primary">'
@@ -45,20 +46,30 @@
 				elm.append(chooseFileButton);
 
 				chooseFileButton.on('click', function (evt) {
-					// fileButton[0].files[0] = '';
-					// fileButton[0].value = '';
 					fileButton[0].click();
 				});
 
 				var commit = function() {
 				};
 
+				scope.$on('psui:fileupload-progress', function(event, data){
+					scope.$apply(function(){
+						scope.progress = data.uploader.progress;
+					});
+				});
+
 				var imgCtrl = ctrls[1];
 				fileButton.on('change', function(evt) {
 					var file = fileButton[0].files[0];
 
-
 					if (file) {
+						elm.html(
+							'<div class="psui-attachment-name">'
+							+ '{{"generic.file.uploading" | translate}}: {{progress * 100 | number:0}}%'
+							+ '</div>'
+						);
+						$compile(elm.contents())(scope);
+
 							if (imgCtrl && imgCtrl.srcElm) {
 								var urlObject;
 								if (typeof webkitURL !== 'undefined') {
