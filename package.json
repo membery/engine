@@ -60,7 +60,8 @@
     "karma-chai-plugins": "^0.2.4",
     "karma-mocha": "^0.1.9",
     "karma-phantomjs-launcher": "^0.1.4",
-    "protractor": "^1.5.0"
+    "protractor": "^1.5.0",
+    "strsplit": "^1.0.0"
   },
   "scripts": {
     "test": "grunt test",

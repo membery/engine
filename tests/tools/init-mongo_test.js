@@ -90,11 +90,9 @@ mongoDriver.init(config.mongoDbURI, function(err) {
 	var _dao = new universalDaoModule.UniversalDao(mongoDriver, {
 		collectionName : "people"
 	});
-
-
-	_daoProfiles.save(defaultProfile,function(err){
-		console.log(err);
-	});
+	// _daoProfiles.save(defaultProfile,function(err){
+	// 	console.log(err);
+	// });
 	_daoProfiles.save(testProfile,function(err,data){
 
 		console.log(data);
