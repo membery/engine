@@ -55,6 +55,22 @@
 			"createNo": 0,
 			"findNo": 1,
 			"dependencies": ["category","seasons"]
+		},
+		"club_change": {
+			"url":"http://localhost:3000/schema/compiled/uri~3A~2F~2Fregistries~2Ftransfers~23views~2Ftransfers~2Fnew",
+			"schema": "",
+			"listNo": 4,
+			"createNo": 0,
+			"findNo": 1,
+			"dependencies": ["people","club","seasons"]
+		},
+		"rosters":{
+			"url":"http://localhost:3000/schema/compiled/uri~3A~2F~2Fregistries~2Frosters~23views~2Frosters~2Fnew",
+			"schema": "",
+			"listNo": 5,
+			"createNo": 0,
+			"findNo": 1,
+			"dependencies": ["club","seasons","category","people:coach","competitions"]
 		}
 	}
 }
