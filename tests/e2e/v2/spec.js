@@ -3,6 +3,8 @@ var user = 'testGeneral';
 var password = 'johndoe';
 var interact = require('./testLib/interact.js');
 var request = require('request');
+var primalSplit = require('strsplit');
+var fs = require('fs');
 var options = {
 	url: "",
 	rejectUnauthorized: false,
@@ -35,6 +37,22 @@ describe('General test:', function() {
 		browser.waitForAngular();
 	});
 
+	afterEach(function (){
+	    var passed = jasmine.getEnv().currentSpec.results().passed();
+	    if (!passed) {
+	        browser.takeScreenshot().then(function (png)
+	        {
+				var fileName = jasmine.getEnv().currentSpec.description.split(' ').join('_')+new Date().getTime(); //TODO: use err msg as part of file name
+				var stream = fs.createWriteStream(__dirname+'/screenshot/'+fileName+'.png');
+				try {
+					stream.write(new Buffer(png, 'base64'));
+					stream.end();
+					console.log('saved ScreenShot');
+				}
+				catch (err) {console.log (err);}
+	        });
+	    }
+	});
 
 	it('should get schemas', function(done) {
 		browser.manage().getCookies().then(function(cookies) {
@@ -54,25 +72,31 @@ describe('General test:', function() {
 	});
 
 	for (key in schemas) {
-		if (key==key) {
+		if (key=='seasons') { //quick way to run only one test
 		(function(key) {
 			it('should create '+key, function() {
 				console.log(schemas[key].schema.title);
 				for (req in schemas[key].dependencies) {
 					console.log(key+' req -> '+schemas[key].dependencies[req]);
-					interact.create(schemas[schemas[key].dependencies[req]]);
+					//interact.create(schemas[schemas[key].dependencies[req]]);
+					var foo = primalSplit(schemas[key].dependencies[req],':',2);   //TODO: rename variables
+					console.log(foo);
+					interact.create(schemas[foo[0]],(foo[1] != undefined ? primalSplit(foo[1],':') : []));
+
 				}
 				interact.createFull(schemas[key], key);
-				interact.check(schemas[key]);
+				interact.check(schemas[key],key);
 			});
 			it('should erase '+key, function() {
 				if (schemas[key].schema.table == 'people') {interact.eraseOne('people', {"baseData.id" : "baseData id"})}
 					else {interact.erase(schemas[key].schema.table);}
+
 				for (req in schemas[key].dependencies) {
-					if (schemas[schemas[key].dependencies[req]].schema.table == 'people') {
+					var BREWmASTER = primalSplit(schemas[key].dependencies[req],':',2)
+					if (schemas[BREWmASTER[0]].schema.table == 'people') {
 						interact.eraseOne('people', {"baseData.id" : "baseData id"});
 					}
-					else {interact.erase(schemas[schemas[key].dependencies[req]].schema.table);}
+					else {interact.erase(schemas[BREWmASTER[0]].schema.table);}
 				}
 			});
 		})(key);
