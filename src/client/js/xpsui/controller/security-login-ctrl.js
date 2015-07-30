@@ -8,7 +8,8 @@
 		'$location',
 		'xpsui:NotificationFactory', 
 		'xpsui:NavigationService' ,
-		function($scope, SecurityService, $rootScope, $location,notificationFactory, navigationService) {
+		'$cookies',
+		function($scope, SecurityService, $rootScope, $location,notificationFactory, navigationService, $cookies) {
 			// FIXME remove this in production
 			// $scope.user = 'johndoe';
 			// $scope.password = 'johndoe';
