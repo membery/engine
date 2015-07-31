@@ -137,7 +137,7 @@ mongoDriver.init(config.mongoDbURI, function(err) {
 				}
 			};
 			_dao.save(johndoe, function (err,data){
-				console.log('User saved (err=='+err+')');
+				console.log('User saved (err=='+err+') [collection=='+config.mongoDbURI)+']';
 				mongoDriver.close();
 			});
 		});
