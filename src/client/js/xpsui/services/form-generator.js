@@ -38,7 +38,11 @@
 
 				// validations
 				if (schemaFragment.required) {
-					field.attr('required', true);
+					if(schemaFragment.type === 'object') {
+						field.attr('xpsui-obj-required', '');
+					}else {
+						field.attr('required', true);
+					}
 					field.attr('xpsui-validity-mark', '');
 				}
 
