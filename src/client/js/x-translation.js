@@ -124,6 +124,7 @@
 			"generic.noItems.label": "Žiadne položky.",
 			"generic.file.choose": "Zvoliť súbor",
 			"generic.file.uploadFailed": "Uloženie súboru zlyhalo.",
+			"generic.file.uploading": "Nahráva sa",
 			"generic.loading": "Načítava...",
 			"generic.more": "Viac",
 //FIXME translate into other languages
@@ -670,6 +671,7 @@
 			"generic.noItems.label": "Žádné položky.",
 			"generic.file.choose": "Vybrat soubor",
 			"generic.file.uploadFailed": "Nepodařilo se uložit soubor.",
+			"generic.file.uploading": "Nahrává se",
 			"generic.loading": "Načítava...",
 			"generic.more": "Více",
 
@@ -1187,6 +1189,7 @@
 			"generic.loading": "Loading...",
 			"generic.more": "More",
 			"generic.file.choose": "Choose a file",
+			"generic.file.uploading": "Uploading",
 			"generic.noItems.label": "No items.",
 			
 			"registry.new.new": "New",
@@ -1729,6 +1732,7 @@ $translateProvider.translations('ja', {
 			"generic.noItems.label": "No Items.",
 			"generic.file.choose": "Zvoliť súbor",
 			"generic.file.uploadFailed": "Uloženie súboru zlyhalo.",
+			"generic.file.uploading": "Nahráva sa",
 			"generic.loading": "Načítava...",
 			"generic.more": "Viac",
 //FIXME translate into other languages
