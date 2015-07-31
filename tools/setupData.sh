@@ -25,8 +25,6 @@ if [ $# -lt 1 ]; then
 	echo "Known datasets:"
 	for set in ${!datasets[@]}; do echo "$set => ${datasets["$set"]}"; done;
 	echo
-
-	exit -1;
 fi
 
 # do stuff
