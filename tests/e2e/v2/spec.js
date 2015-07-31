@@ -20,8 +20,8 @@ var options = {
      }
 };
 
-//var schemas = require('../../../data/tests/e2e_test_config.json').schemas;
-var schemas = require('./test_config.json').schemas;
+var schemas = require('../../../data/tests/e2e_test_config.json').schemas;
+//var schemas = require('./test_config.json').schemas;
 describe('General test:', function() {
 
 	beforeEach(function() {
@@ -43,7 +43,7 @@ describe('General test:', function() {
 	        browser.takeScreenshot().then(function (png)
 	        {
 				var fileName = jasmine.getEnv().currentSpec.description.split(' ').join('_')+new Date().getTime(); //TODO: use err msg as part of file name
-				var stream = fs.createWriteStream(__dirname+'/screenshot/'+fileName+'.png');
+				var stream = fs.createWriteStream(__dirname+'/screenshots/'+fileName+'.png');
 				try {
 					stream.write(new Buffer(png, 'base64'));
 					stream.end();
