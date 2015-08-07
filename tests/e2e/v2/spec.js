@@ -33,7 +33,7 @@ describe('General test:', function() {
 		loginNameEl.sendKeys(user);
 		var passwordEl = element(by.model('password'));
 		passwordEl.sendKeys(password);
-		element(by.buttonText('Prihlásenie')).click();
+		$('button[ng-show="!profiles"]').click();
 		browser.waitForAngular();
 	});
 
@@ -53,50 +53,55 @@ describe('General test:', function() {
 	        });
 	    }
 	});
-
 	it('should get schemas', function(done) {
 		browser.manage().getCookies().then(function(cookies) {
-			options.headers.Cookie='securityToken='+cookies[1].value+'; loginName='+cookies[3].value+'; profile='+cookies[2].value;
+			options.headers.Cookie='securityToken='+cookies[2].value+'; loginName='+cookies[4].value+'; profile='+cookies[3].value;
 			for(key in schemas) {
-				options.url = schemas[key].url;
+				options.url = schemas[key].new;
 				(function(type, options) {
 					request(options, function(error, response, body) {
 						if (!error && response.statusCode == 200) {
-							schemas[type].schema = (JSON.parse(body));
-							console.log('<<'+schemas[type].schema.title+'>> w/ StatusCode==200');
+							schemas[type].newSchema = (JSON.parse(body));
+							console.log('n:<<'+schemas[type].newSchema.title+'>> w/ StatusCode==200');
+			   			} else {if (!error) {console.log('statusCode=='+response.statusCode);done(false)} else {console.log('* error *');done(false)}}
+        			});
+    			})(key, options);
+				options.url = schemas[key].search;
+				(function(type, options) {
+					request(options, function(error, response, body) {
+						if (!error && response.statusCode == 200) {
+							schemas[type].searchSchema = (JSON.parse(body));
+							console.log('s:<<'+schemas[type].searchSchema.title+'>> w/ StatusCode==200');
 			   			} else {if (!error) {console.log('statusCode=='+response.statusCode);done(false)} else {console.log('* error *');done(false)}}
         			});
     			})(key, options);
 			}
-		}).then(function() {console.log('done w/ getting schema'); done();});
+		}).then(function() {browser.sleep(1000); console.log('done w/ getting schema'); done();});
 	});
 
 	for (key in schemas) {
-		if (key=='seasons') { //quick way to run only one test
+		if (key==key) { //quick way to run only one test
 		(function(key) {
 			it('should create '+key, function() {
-				console.log(schemas[key].schema.title);
+				console.log(schemas[key].newSchema.title);
 				for (req in schemas[key].dependencies) {
 					console.log(key+' req -> '+schemas[key].dependencies[req]);
 					//interact.create(schemas[schemas[key].dependencies[req]]);
 					var foo = primalSplit(schemas[key].dependencies[req],':',2);   //TODO: rename variables
-					console.log(foo);
 					interact.create(schemas[foo[0]],(foo[1] != undefined ? primalSplit(foo[1],':') : []));
-
 				}
 				interact.createFull(schemas[key], key);
 				interact.check(schemas[key],key);
 			});
 			it('should erase '+key, function() {
-				if (schemas[key].schema.table == 'people') {interact.eraseOne('people', {"baseData.id" : "baseData id"})}
-					else {interact.erase(schemas[key].schema.table);}
-
+				if (schemas[key].newSchema.table == 'people') {interact.eraseOne(schemas['people'].newSchema)}
+					else {interact.erase(schemas[key].newSchema.table);}
 				for (req in schemas[key].dependencies) {
 					var BREWmASTER = primalSplit(schemas[key].dependencies[req],':',2)
-					if (schemas[BREWmASTER[0]].schema.table == 'people') {
-						interact.eraseOne('people', {"baseData.id" : "baseData id"});
+					if (schemas[BREWmASTER[0]].newSchema.table == 'people') {
+						interact.eraseOne(schemas['people'].newSchema);
 					}
-					else {interact.erase(schemas[BREWmASTER[0]].schema.table);}
+					else {interact.erase(schemas[BREWmASTER[0]].newSchema.table);}
 				}
 			});
 		})(key);

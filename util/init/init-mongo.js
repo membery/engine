@@ -72,6 +72,7 @@ mongoDriver.init(config.mongoDbURI, function(err) {
 					"Person - read - KM":true,
 					"Person - write - KM":true,
 					"Requests - read - KM":true,
+					"Requests - read":true,
 					"Requests - write - KM":true,
 					"Portal - write":true,
 				},
