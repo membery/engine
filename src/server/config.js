@@ -21,6 +21,8 @@ var config = {
 		photos: process.env.REGISTRIES_PATH_PHOTOS || process.cwd() + '/data/photos',
 		uploads: process.env.REGISTRIES_PATH_UPLOADS || process.cwd() + '/data/uploads',
 		schemas: process.env.REGISTRIES_PATH_SCHEMAS || process.cwd() + '/data/schemas',
+		portalTemplates: process.env.REGISTRIES_PATH_TEMPLATES || path.join(process.cwd(), 'data', 'portal', 'client', 'templates'),
+		portalBlocks: process.env.REGISTRIES_PATH_BLOCKS || path.join(process.cwd(), 'data', 'portal', 'client', 'blocks'),
 		dataset: process.env.REGISTRIES_PATH_DATASET || process.cwd() + '/data/',
 		portalClient: process.cwd() + '/data/portal/client'
 	},
