@@ -48,3 +48,6 @@ config.js needs to contain these e-mail addresses
 - /data/js/config.js file should be present
 - system is backward compatible somehow but config should be added even application survives without it
 
+## 9 - Portal templates and blocks moved to dataset
+- db migration is not needed for this version
+- instances with portal need to contain JSON blocks and templates + their indexes in portal/client/blocks and portal/client/templates
