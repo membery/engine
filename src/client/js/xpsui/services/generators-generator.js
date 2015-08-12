@@ -14,6 +14,7 @@
 				[{ round:<index>,term:<round_term>,matches:[{home:teams[x1],visitors:teams[y1],board:<board_index>},...] },...]
 		 */
 		function bergerTable (teams,terms) {
+
 			var floatTable = [];
 			var n, i, increment=1, atype=1, minmove=0, flipcolors=0;
 
@@ -85,10 +86,11 @@
 
 					colorFlag ^= flipcolors; //Will reverse color assignment if checked
 
-					var match={home: teams[floatTable[colorFlag?nr-i:i]-1] ,visitors:teams[floatTable[colorFlag?i:nr-i]-1] ,boar:i ,matchNumber:matchPrefix};
+
+					var match={home:teams[floatTable[colorFlag?nr-i:i]-1].team ,visitors:teams[floatTable[colorFlag?i:nr-i]-1].team ,boar:i ,matchNumber:matchPrefix, homeClub:teams[floatTable[colorFlag?nr-i:i]-1].club ,visitorClub:teams[floatTable[colorFlag?i:nr-i]-1].club};
 
 					if (i===0){
-						match={home:match.visitors,visitors:match.home,board:i, matchNumber:matchPrefix};
+						match={home:match.visitors,visitors:match.home,board:i, matchNumber:matchPrefix, homeClub:match.visitorClub, visitorClub:match.homeClub};
 					}
 
 					if (match.home.complement){
@@ -119,6 +121,7 @@
 			// console.log(JSON.stringify(outRounds));
 			return outRounds;
 		}
+
 		function saveBerger(entity,callback){
 
 			var saveSchema= schemaUtilFactory.encodeUri("uri://registries/refereeReports#views/refereeReports/new");
@@ -131,16 +134,22 @@
 				round.matches.map(function(match){
 					var toSave={};
 					toSave.baseData={};
+					toSave.baseData.competition=entity.baseData.competition;
+					toSave.baseData.competitionPart={registry:"competitionParts",oid:entity.id};
+					toSave.baseData.ageCategory=entity.competitionData.baseData.ageCategory;
+					toSave.baseData.homeClubSec=match.homeClub;
+					toSave.baseData.awayClubSec=match.visitorClub;
 					toSave.baseData.homeClub=match.home;
 					toSave.baseData.awayClub=match.visitors;
 					toSave.baseData.matchRound={registry:"schedules",oid:round.term.id};
-					toSave.baseData.competition=entity.baseData.competition;
-					toSave.baseData.ageCategory=entity.baseData.ageCategory;
-					toSave.baseData.competitionPart={registry:"competitionParts",oid:entity.id};
 					toSave.baseData.matchDate=round.term.baseData.date;
+					toSave.baseData.season=entity.competitionData.baseData.season;
 					toSave.baseData.state='Otvorený';
-					toSave.baseData.matchNumber=entity.baseData.prefix+match.matchNumber;		
-					
+
+					if (entity.baseData.prefix) {
+						toSave.baseData.matchNumber=entity.baseData.prefix+match.matchNumber;
+					};
+												
 					all.push( $http({url: '/udao/saveBySchema/'+saveSchema, method: 'PUT',data: toSave}));
 				});
 			});
@@ -165,8 +174,50 @@
 			}).success(function(terms){
 				var teams=entity.listOfTeam.team;
 
-				entity.generated=bergerTable(teams,terms);
-				callback();
+				var n = teams.length;
+				
+				//get competition object
+				var getSchemaCompetition = "uri://registries/competitions#views/competitions/";
+				$http({ 
+					method : 'GET',
+					url: '/udao/getBySchema/'+schemaUtilFactory.encodeUri(schemaUtilFactory.concatUri(getSchemaCompetition, 'view'))+'/'+ entity.baseData.competition.oid
+				})
+				.success(function(dataCom){
+					console.log(JSON.stringify(dataCom, null, 4));
+					entity.competitionData = dataCom;
+
+					//get roster object
+					var getSchemaRoster = "uri://registries/rosters#views/rosters/";
+					var httpArray = [];
+
+					for (var i = 0; i < n; i++) {
+						httpArray.push(
+							$http({ 
+								method : 'GET',
+								url: '/udao/getBySchema/'+schemaUtilFactory.encodeUri(schemaUtilFactory.concatUri(getSchemaRoster, 'view'))+'/'+ entity.listOfTeam.team[i].team.oid
+							})
+						);
+					};
+
+					$q.all(httpArray).then(function(listOfRoster){
+				 		if(!entity.rosters){
+							entity.rosters = {};
+						}
+						entity.rosters = listOfRoster;
+						var rosters = entity.rosters;
+
+						for (var i = 0; i < n; i++) {
+							teams[i].club = rosters[i].data.baseData.club;
+						}
+
+						entity.generated=bergerTable(teams,terms);
+					});
+
+					callback();
+				}).error(function(err) {
+					callback(err);
+				});
+
 			}).error(function(err){
 				callback(err);
 			});
