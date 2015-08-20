@@ -543,6 +543,13 @@ module.exports = {
 			throw new Error('page-controller module not initialized');
 		}
 	},
+	renderRefereeReport: function(req, res, next) {
+		if (pageController) {
+			pageController.renderRefereeReport(req, res, next);
+		} else {
+			throw new Error('page-controller module not initialized');
+		}
+	},
 	saveSchema: function(req, res, next) {
 		if (pageController) {
 			pageController.saveSchema(req, res, next);
