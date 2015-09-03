@@ -15,8 +15,8 @@
 
 			var url = $location.absUrl().replace('#/help', '');
 			var token = $cookies.securityToken;
-			$scope.genQrcode = function() {
-				$scope.qrcode = '{"loginName": "' + $cookies.loginName + '", "url":"' + url + '"}';
+			$scope.genQrcode = function(bannerDat) {
+				$scope.qrcode = '{"loginName": "' + $cookies.loginName + '", "bannerDat":"' + bannerDat + '", "url":"' + url + '"}';
 			}
 		}
 	]);
