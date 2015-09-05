@@ -1,43 +1,25 @@
 var q = require('q'),
 	async = require('async');
 
-var mongoDriver = require('./../../build/server/mongoDriver.js'),
-	serverConfig = require('./../../build/server/config.js');
-
+//var mongoDriver = require('./../../build/server/mongoDriver.js'),serverConfig = require('./../../build/server/config.js');
+var mongoInit = require('./../tools/init-mongo_test.js');
 // Configuration for the protractor
 var config = {
 
 	baseUrl: 'http://localhost:3000',
 
 	capabilities: { browserName: 'firefox' },
-	multiCapabilities: [{
-		browserName: 'firefox'
-	}, {
-		browserName: 'chrome'
-	}],
-
+	/*multiCapabilities: [{browserName: 'firefox'}, {browserName: 'chrome'}],*/
+	jasmineNodeOpts: {
+			showColors: true, // Use colors in the command line report.
+		defaultTimeoutInterval: 180000,
+	},
 //	framework: 'mocha',
-
-	/** Drop test database so we can run tests on clean DB */
-	beforeLaunch: function() {
-		var deferred = q.defer();
-		async.series([
-			function initMongo(cb) {
-				mongoDriver.init(serverConfig.mongoDbURI, cb);
-			},
-//			function dropDatabase(cb) {
-//				mongoDriver.getDb().dropDatabase(cb);
-//			},
-			function closeConnection(cb) {
-				mongoDriver.close();
-				return cb();
-			}
-		], function(err) {
-			return err ? deferred.reject(err) : deferred.resolve();
-		});
-		return deferred.promise;
+	// Drop test database so we can run tests on clean DB (old code for creating a database for tests)
+	/*beforeLaunch: function() {var deferred = q.defer(); async.series([ function initMongo(cb) {mongoDriver.init(serverConfig.mongoDbURI, cb);},function dropDatabase(cb) {mongoDriver.getDb().dropDatabase(cb);},function closeConnection(cb) {mongoDriver.close();return cb();}], function(err) {return err ? deferred.reject(err) : deferred.resolve();});return deferred.promise;}*/
+	beforeLaunch: function () {
+		mongoInit.beforeProtractorLaunch();
 	}
-
 };
 
 if (process.env.TRAVIS) {
