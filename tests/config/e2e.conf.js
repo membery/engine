@@ -1,9 +1,10 @@
 // Configuration for the protractor
 var config = require('./protractor.conf');
 
-config.suites = [
-	'../e2e/v2/spec.js'
-];
+config.suites = {
+	schema: '../e2e/v2/spec.js',
+	//rememberMe: '../e2e/v2/rememberMe.js'
+};
 
 if (process.env.TRAVIS) {
 	config.capabilities.name = "[" + process.env.TRAVIS_REPO_SLUG + "#" + process.env.TRAVIS_BRANCH + "] [e2e] Build " + process.env.TRAVIS_BUILD_NUMBER
