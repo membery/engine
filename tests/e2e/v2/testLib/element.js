@@ -7,8 +7,7 @@ if (!(schema.hasOwnProperty('sequence')) && !(key=='photo') && !(schema.hasOwnPr
 		element(by.model('model.obj.'+KEY+'.'+key)).$('.x-dropdown-action').click();   //select-box
 		element(by.model('model.obj.'+KEY+'.'+key)).$('.x-dropdown-content-inner').all(by.css('.x-item')).get(0).click();
 	} else { if (schema.hasOwnProperty('render') && (schema.render.component=="psui-datepicker")) {
-				element(by.model('model.obj.'+KEY+'.'+key)).$('.x-dropdown-action').click();	//Kalendarik
-				element(by.model('model.obj.'+KEY+'.'+key)).$('table').all(by.css('tr')).get(2).all(by.css('td')).get(2).click();
+				element(by.model('model.obj.'+KEY+'.'+key)).$('input').sendKeys('6.6.2006');
 			} else { if (!(schema.type == 'number')) { element(by.model('model.obj.'+KEY+'.'+key)).$('input').sendKeys(KEY+' '+key);}
 					else {element(by.model('model.obj.'+KEY+'.'+key)).$('input').sendKeys('6');
 				}}}
@@ -22,7 +21,7 @@ function elementValueCheck(schema, KEY, key) {
 			//expect(element.all(by.model('model.obj.'+KEY+'.'+key)).get(0).$('div').getText()).toEqual(schema['enum'][0]);   //select-box
 			//some elements dont store information in sub element div
 		} else { if (schema.hasOwnProperty('render') && (schema.render.component=="psui-datepicker")) {
-					expect(element.all(by.model('model.obj.'+KEY+'.'+key)).get(0).$('div').getText()).toEqual('5.8.2015');
+					expect(element.all(by.model('model.obj.'+KEY+'.'+key)).get(0).$('div').getText()).toEqual('6.6.2006');
 				} else { if (!(schema.type == 'number') && !(schema.hasOwnProperty('objectLink2')))
 						{
 							expect(element.all(by.model('model.obj.'+KEY+'.'+key)).get(0).$('div').getText()).toEqual(KEY+' '+key);

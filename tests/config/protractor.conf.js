@@ -12,7 +12,7 @@ var config = {
 	/*multiCapabilities: [{browserName: 'firefox'}, {browserName: 'chrome'}],*/
 	jasmineNodeOpts: {
 			showColors: true, // Use colors in the command line report.
-		defaultTimeoutInterval: 180000,
+		defaultTimeoutInterval: 300000,
 	},
 //	framework: 'mocha',
 	// Drop test database so we can run tests on clean DB (old code for creating a database for tests)

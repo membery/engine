@@ -2,7 +2,16 @@ module.exports = {
 	protractor: {
 		'e2e-chrome': {
 			options: {
-				configFile: 'tests/config/e2e.chrome.conf.js'
+				configFile: 'tests/config/e2e.chrome.conf.js',
+				keepAlive: false
+			},
+			saucelabs: {
+				options: {
+					args: {
+						sauceUser: process.env.SAUCE_USERNAME,
+						sauceKey: process.env.SAUCE_ACCESS_KEY
+					}
+				}
 			}
 		},
 		'e2e-firefox': {
@@ -20,5 +29,10 @@ module.exports = {
 				configFile: 'tests/config/smoke.firefox.conf.js'
 			}
 		}
+	},
+	shell: {
+	   protractor_update: {
+		   command: 'node_modules/protractor/bin/webdriver-manager update'
+	   }
 	}
 };

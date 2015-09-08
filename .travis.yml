@@ -2,8 +2,8 @@ language: node_js
 
 env:
   global:
-    - secure: I+/QCIeIPlWJRTtBVPHGYbSn6Ca1Z1Dp/OcCF4J/gCGVGuPgTu81/l0sP1rAty3NfRNvqnsNmJQTyEBuR5X+a9GCnbWjogzivypYXgRY/ovmCNdinnSXLdct+3ewHKAOLzb4sEV8c7edsDxZ2SusyGNbop7th/c+5+u+RW1SDEY=
-    - secure: AyQc+X5uNI0Pwibglf1iutu7ddJmE1J1zghK1HXtgVRBDW275C2RN9NUZw5dYihzNResgP7flJK5ol18ffwa8JnSgtRfSte/KfNaF/Fo1My8GMxBVbXbXnY0SLYNxepNXOUn0c9jbhgUPzakpS5SHhP8bXv6uy0FvsO+zCktqow=
+    - secure: s1MAwiRIZDf6f2iUJ+ZuYJXijYiTU5zuSNok/ww719n19h+JkaieGGbr/DohUWcELNB9FqM2zZe+3AjGU9LN0yvaGh8FAEyq4FLxcNerxoiySqiSjdHNSegzRcq/ZFLTWk4NIHFt5Ad2bUsEniZs+7CV4lfEvKkDKEJsrnwQpIlsiKA8M8CEqHWYegg2Gxl+OZhL/lsLYQhQ6HN8nob9Sqxoq1yAceYPYq46bdZNq8k7aA5Id4YKkrLhLOhHMSVJVYLtlg59EY6K0vupF0mJoI+B5eBfvago8LoSC/fqpgskOD0xSrsf89uW+fBITOum67lsVo4Y/ayNM7f/uvyxjMCowRBvvY3XK5UJLSJ+yc5G1IR3o8HpKVYDyksHuKpqNjiXjef7FEgkffl7XapMv2GRybEkc/5M8tp4vAyEV+JYLbQxNBKk6DlDTfc0Xiljbh913RfZYCIz+DtiBnuwj0Oa0Ox7iDAZpp0mrrlEokZ3DScu8qgsb//sHVyTluPcXPii/uNudXm2s6spd7WmnXUpMmNd+0Fau1EskHr064rVd7oFb7XxHd/2xJccQIpUPP3I+hyWolw00c5n/DrpU2/NF9nKAipA6QyqJlFwwUZcZMsXv7FeSX2jq/hzc3GbU+ZR7c4RpCLZJlogv7JHw2I1lZpDq1TTWoIwJG5JXH8=
+    - secure: dTaAK2NkfcDY6zuEmo0vpBao4YDTjERFtG3aciYTsRTMjN2y5m1uI2qrYRvD4kzO1AwfX3Pe2Iq0mRk6bz6UprXQ5hWj1hT0jm+ENTAaLbiwQ6zKRK2+4aidVy06wh9HiitzckPn+km8nnAjGN4AZCrRm/6tX2DKFO0Ynm75M9bro+oQODcAspCuzHbpLy/vcx8Rdzo3Z+b6bE8nkgMUe4dOcLc+UDjrWShKdn2ToJwOn5CjoFburAU/LPbqY/jMh23mYA+MiM23aaNw9QEestb7mfSxCOUCuzRZA2CawkEBRTJ36kTiF8NWtGB3fkZdXLziEIyfKyVcudK/HNFfcDeIrPNB2kw3O/cgnnCnP4JUx7Mg3zek23QVM6F8EQpHgcsBgzfFR+KFbrzPUrn2nEHu5yLb023bjsUz7+pqgQ3WOEi6+JOPXHAvtqS3jFU5VLB99nONEzDMQmX8unkVa49qY8Y7+L0dmdTuwRzGA08pFX68yzprEz3Ao8+rVApZAAOfvU0a0Lw2c6gd2/CAEMkJdEMvjBxiLhpcaZK+Jf+EaaDG01ytxQ6//gxtqlbJgLNve+eT0AxXjTZEgvupfobIJe64/cWYy5GIiqS7DbtAP2FIepxg/HYtk0AKCpRxNyjLNeF1M9+6KE7BfgWhU7Ry75DXVe3u9rO/ujiyyN4=
 
 node_js:
   - "0.12"
@@ -15,10 +15,14 @@ addons:
 services:
   - mongodb
 
+sudo: required
+
 before_install:
   - "npm install -g grunt-cli bower"
   - "gem install sass --version 3.4.0"
   - "bower install"
+  - "export SAUCE_USERNAME=maxkarel"
+  - "export SAUCE_ACCESS_KEY=65c152b4-7218-45a6-ac8b-6908c9755ce3"
   # Add demo01 data
   - "./tools/setupData.sh demo01"
 

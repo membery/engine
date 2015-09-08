@@ -26,31 +26,40 @@ function check(data, schemaName) {
 	var schema = data.searchSchema.properties;
 	//element.all(by.css('#main-menu div div > ul > li')).get(data.listNo).$('a.x-submenu-toggle').click();
 	element.all(by.css('#main-menu div div > ul > li')).get(data.listNo).all(by.css('ul > li')).get(data.findNo).click();
-	var i;
-	i=0;
-	for (k in data.searchSchema.properties) {
-		for (q in data.searchSchema.properties[k].properties) {
-			var prop = data.searchSchema.properties[k].properties[q];
-			if (!(prop.hasOwnProperty('sequence') || prop.hasOwnProperty('objectLink2') || (prop.hasOwnProperty('type') && prop.type=='number') || prop.hasOwnProperty('render')) ) {
-				element(by.model('crit.field')).all(by.css('option')).get(i+1).click();
-				element(by.model('crit.val')).click();
-				element(by.model('crit.val')).$('input').sendKeys(k+' '+q);
-				element(by.css('button.btn-primary')).click();
-				expect(element.all(by.repeater('d in data')).count()).toEqual(1+(data.dependencies.indexOf(schemaName) > -1 ? 1 : 0));
-				element(by.repeater('a in $parent.schema.clientActions')).click();
-				//expect($('.x-form div[class="x-form-title"]').getText()).toEqual(data.schema.title); //TODO
-				for (key in schema) {
-					(function (schemicka, k){			//schemicka  =  jeden block (baseData)
-						for (keys in schemicka) {
-							iElement.check(schemicka[keys], k, keys);
-						}
-					})(schema[key].properties, key);
+	var done = false;
+	var i = 0;
+	function searchMenuNavigation(reqp) {
+		for (k in data.searchSchema.properties) {
+			for (q in data.searchSchema.properties[k].properties) {
+				var prop = data.searchSchema.properties[k].properties[q];
+				var idk = (prop.hasOwnProperty('required')==reqp ? true : false); //idk == i dont know
+				idk = !( prop.hasOwnProperty('sequence') || prop.hasOwnProperty('readOnly') || prop.hasOwnProperty('objectLink2') || (prop.hasOwnProperty('type') && (prop.type=='number' || prop.type=='array')) || prop.hasOwnProperty('render') || idk );
+				if (idk) {
+					element(by.model('crit.field')).all(by.css('option')).get(i+1).click();
+					element(by.model('crit.val')).click();
+					element(by.model('crit.val')).$('input').sendKeys(k+' '+q);
+					element(by.css('button.btn-primary')).click();
+					var confirmButton= element.all(by.repeater('a in $parent.schema.clientActions'));
+					confirmButton.get(0).click();
+					done=true;
+					//expect($('.x-form div[class="x-form-title"]').getText()).toEqual(data.schema.title); //TODO
+					for (key in schema) {
+						(function (schemicka, k){			//schemicka  =  jeden block (baseData)
+							for (keys in schemicka) {
+								iElement.check(schemicka[keys], k, keys);
+							}
+						})(schema[key].properties, key);
+					}
+					break;
 				}
-				break;
+				i=i+1;
 			}
-			i=i+1;
-			}
-		break;}
+			if (done) {break;}
+		}
+	}
+	searchMenuNavigation(true);
+	if (!done) {i=0; searchMenuNavigation(false);}
+	if (!done) {console.log('WARNING - no assertions were checked');}
 }
 function createFull(data, name){
 	var uniqueName = name + new Date().getTime();
@@ -97,7 +106,7 @@ function deleteDocumentFromDatabase(schema){
 				attr = key+'.'+keys;
 				val = key+' '+keys;
 				var querry = (obj={}, obj[attr]=val, obj);
-				
+
 				break;
 			}
 		}

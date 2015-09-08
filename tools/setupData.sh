@@ -3,16 +3,7 @@
 declare -A datasets
 
 datasets=(
-	["caihp"]="https://github.com/sosik/registries-data-caihp.git"
-	["svf"]="https://github.com/sosik/registries-data-svf.git"
-	["srz"]="https://github.com/sosik/registries-data-srz.git"
-	["szh"]="https://github.com/sosik/registries-data-szh.git"
-	["demo01"]="https://github.com/sosik/registries-data-demo01.git"
-	["caihp-petugez"]="https://github.com/petugez/registries-data-caihp.git"
-	["caihp-mkotul"]="https://github.com/mkotul/registries-data-caihp.git"
-	["svf-mkotul"]="https://github.com/mkotul/registries-data-svf.git"
-	["srz-petugez"]="https://github.com/petugez/registries-data-srz.git"
-	["svf-petugez"]="https://github.com/petugez/registries-data-svf.git"
+	["demo01"]="https://github.com/membery/data-demo"
 )
 
 if [ $# -lt 1 ]; then
@@ -34,8 +25,10 @@ for set in ${!datasets[@]}; do
 		done=1;
 		echo "Requested set $set"
 		echo "Cloning ${datasets["$set"]}"
-
-		git clone ${datasets[$set]} data
+		cd ..
+		git clone ${datasets[$set]}
+		cd engine
+		ln -s ../data-$set data
 		exit 0;
 	fi
 done;

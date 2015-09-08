@@ -55,11 +55,10 @@
     "karma-chai-plugins": "^0.2.4",
     "karma-mocha": "^0.1.9",
     "karma-phantomjs-launcher": "^0.1.4",
-    "protractor": "^1.5.0",
-    "strsplit": "^1.0.0"
+    "protractor": "^1.5.0"
   },
   "scripts": {
-    "test": "grunt test",
+    "test": "./tests/e2e/v2/travis.sh",
     "start": "supervisor --watch 'build/' -- build/server/server.js",
     "install": "node node_modules/protractor/bin/webdriver-manager update"
   }
