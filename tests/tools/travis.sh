@@ -1,7 +1,7 @@
 #!/bin/bash
 declare -A datasets
 datasets=(
-	["szh"]="https://github.com/MaxKarel/data-szh.git"
+	# ["szh"]="https://github.com/MaxKarel/data-szh.git"
 	# ["uavas"]="https://github.com/membery/data-uavas.git"
 	# ["sbf"]="https://github.com/membery/data-sbf.git"
 	# ["caihp"]="https://github.com/membery/data-caihp.git"

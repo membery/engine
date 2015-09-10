@@ -42,7 +42,7 @@ describe('General test:', function() {
 	        browser.takeScreenshot().then(function (png)
 	        {
 				var fileName = jasmine.getEnv().currentSpec.description.split(' ').join('_')+new Date().getTime(); //TODO: use err msg as part of file name
-				var stream = fs.createWriteStream(__dirname+'/screenshots/'+fileName+'.png');
+				var stream = fs.createWriteStream(__dirname+'/../screenshots/'+fileName+'.png');
 				try {
 					stream.write(new Buffer(png, 'base64'));
 					stream.end();
@@ -57,15 +57,15 @@ describe('General test:', function() {
 			var token, name, profile;
 			for (var i = 0;i<cookies.length;i++) {
 				switch (cookies[i].name) {
-					case "profile":
+					case 'profile':
 						profile=cookies[i].value;
 						console.log(profile);
 						break;
-					case "securityToken":
+					case 'securityToken':
 						token=cookies[i].value;
 						console.log(token);
 						break;
-					case "loginName":
+					case 'loginName':
 						name=cookies[i].value;
 						console.log(name);
 						break;
