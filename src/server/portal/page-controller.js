@@ -115,7 +115,7 @@ PageController.prototype.competitionMatchesAll = function(req, res, next) {
 		var result = {};
 		if (data1) {
 			async.map(data1, function(d, cb) {
-				self.uDaoService.getBySchema(schemaName, {perm: {'Registry - read' : true, 'RefereeReport - read - KM': true}}, d.id, function(err, userError, data) {
+				self.uDaoService.getBySchema(schemaName, {perm: {'Registry - read': true, 'RefereeReport - read - KM': true}}, d.id, function(err, userError, data) {
 
 					if (data) {
 						var r = {
