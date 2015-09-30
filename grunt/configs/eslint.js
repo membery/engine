@@ -7,6 +7,7 @@ module.exports = {
 			src: ['src/client/js/xpsui/filters/*.js',
 				'src/client/js/xpsui/services/form-generator.js',
 				'src/client/js/xpsui/directives/objectlink2-edit.js',
+				'src/client/js/xpsui/directives/dashboard-widget-requests.js',
 				'src/client/js/xpsui/services/config.js',
 				'src/client/js/xpsui/controller/registry-view-ctrl.js',
 				'src/client/js/xpsui/services/schema-tools.js',
