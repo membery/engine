@@ -72,7 +72,6 @@
 					buttonsElm.removeClass('x-hidden');
 					elm.addClass('x-inlineedit-edit-mode');
 					elm.removeClass('x-inlineedit-view-mode');
-					editElm.triggerHandler('focus');
 
 					elm.removeClass('x-inlineedit-active');
 
@@ -184,11 +183,11 @@
 					elm.attr('tabindex', '0');
 				
 					elm.on('focus', function(e) {
-						if (formControl.acquireFocus(elm)) {
+						if (formControl.acquireFocus(elm) && e.srcElement.className != 'linkIcon') {
 							enterEditMode();
 						}
 					});
-					
+				
 				}	
 				
 
