@@ -18,7 +18,7 @@ var options = {
 		'Cookie': ''
      }
 };
-
+if(process.env._=='/usr/local/bin/protractor') { serverFullURL='https://localhost:3443'}
 var schemas = require('../../../data/tests/e2e_test_config.json').schemas;
 //var schemas = require('./test_config.json').schemas;
 describe('General test:', function() {
@@ -59,15 +59,15 @@ describe('General test:', function() {
 				switch (cookies[i].name) {
 					case 'profile':
 						profile=cookies[i].value;
-						console.log(profile);
+						console.log('profile='+profile);
 						break;
 					case 'securityToken':
 						token=cookies[i].value;
-						console.log(token);
+						console.log('securityToken '+token);
 						break;
 					case 'loginName':
 						name=cookies[i].value;
-						console.log(name);
+						console.log('loginName '+name);
 						break;
 				}
 			}
@@ -103,7 +103,12 @@ describe('General test:', function() {
 				for (req in schemas[key].dependencies) {
 					console.log(key+' req -> '+schemas[key].dependencies[req]);
 					var foo = schemas[key].dependencies[req].split(':');
-					interact.create(schemas[foo[0]],(foo[1] != undefined ? foo[1] : []));
+					var bar = new Array();
+					for(i=1;i<foo.length;i++) {
+						if (!(foo[i]==undefined)) {bar[i-1]=foo[i]}
+					}
+					console.log(bar);
+					interact.create(schemas[foo[0]],(bar[0] != undefined ? bar : []));
 				}
 				interact.createFull(schemas[key], key);
 				interact.check(schemas[key],key);

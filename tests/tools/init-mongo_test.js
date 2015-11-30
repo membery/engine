@@ -43,17 +43,18 @@ mongoDriver.init(config.mongoDbURI, function(err) {
 					"Competition - write":true,
 					"CompetitionPart - read":true,
 					"CompetitionPart - write":true,
+					"Login History": true,
 					"Schedule - read":true,
 					"Schedule - write":true,
 					"Season - read": true,
 					"Season - write":true,
 					"Person - read - KM":true,
 					"Person - write - KM":true,
+
 					"RefereeReport - read - KM":true,
 					"RefereeReport - write - KM":true,
 					"RefereeReport - read": true,
 					"RefereeReport - write": true,
-
 
 					"Requests - read - KM": true,
 					"Requests - read":true,
@@ -72,9 +73,17 @@ mongoDriver.init(config.mongoDbURI, function(err) {
 					"Registry - write": true,
 					"Registry Competitions": true,
 					"Registry Fees": true,
+					"Registry Transfer": true,
 					"Registry Stadium": true,
 					"Registry Organization": true,
 					"Registry Massmail":true,
+					"Registry Permissions": true,
+					"Registry Requests Solver": true,
+					"Registry Roster": true,
+					"Registry Association": true,
+
+					"Roster - read": true,
+					"Roster - write": true,
 					"Portal - write":true,
 				},
 				"groups": {

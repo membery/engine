@@ -16,7 +16,30 @@ module.exports = {
 		},
 		'e2e-firefox': {
 			options: {
-				configFile: 'tests/config/e2e.firefox.conf.js'
+				configFile: 'tests/config/e2e.firefox.conf.js',
+				keepAlive: false
+			},
+			saucelabs: {
+				options: {
+					args: {
+						sauceUser: process.env.SAUCE_USERNAME,
+						sauceKey: process.env.SAUCE_ACCESS_KEY
+					}
+				}
+			}
+		},
+		'e2e-explorer': {
+			options: {
+				configFile: 'tests/config/e2e.explorer.conf.js',
+				keepAlive: false
+			},
+			saucelabs: {
+				options: {
+					args: {
+						sauceUser: process.env.SAUCE_USERNAME,
+						sauceKey: process.env.SAUCE_ACCESS_KEY
+					}
+				}
 			}
 		},
 		'smoke-chrome': {

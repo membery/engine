@@ -63,7 +63,7 @@
     "protractor": "^1.5.0"
   },
   "scripts": {
-    "test": "./tests/tools/travis.sh",
+    "test": "grunt test",
     "start": "supervisor --watch 'build/' -- build/server/server.js",
     "install": "node node_modules/protractor/bin/webdriver-manager update"
   }

@@ -7,7 +7,8 @@ var iElement = require('./element.js');
 
 function create(data, options){
 	element.all(by.css('#main-menu div div > ul > li')).get(data.listNo).$('a.x-submenu-toggle').click();
- 	element.all(by.css('#main-menu div div > ul > li')).get(data.listNo).all(by.css('ul > li')).get(data.createNo).click();
+ 	element.all(by.css('#main-menu div div > ul > li')).get(data.listNo).all(by.css('ul > li')).get(data.createNo).$('a').click();
+	browser.sleep(7000);
 	var schema = data.newSchema.properties;
 	for (key in schema) {
 		(function (schemicka,k){			//schemicka  =  jeden block (baseData)
@@ -25,7 +26,7 @@ function create(data, options){
 function check(data, schemaName) {
 	var schema = data.searchSchema.properties;
 	//element.all(by.css('#main-menu div div > ul > li')).get(data.listNo).$('a.x-submenu-toggle').click();
-	element.all(by.css('#main-menu div div > ul > li')).get(data.listNo).all(by.css('ul > li')).get(data.findNo).click();
+	element.all(by.css('#main-menu div div > ul > li')).get(data.listNo).all(by.css('ul > li')).get(data.findNo).$('a').click();
 	var done = false;
 	var i = 0;
 	function searchMenuNavigation(reqp) {
@@ -64,7 +65,7 @@ function check(data, schemaName) {
 function createFull(data, name){
 	var uniqueName = name + new Date().getTime();
 	element.all(by.css('#main-menu div div > ul > li')).get(data.listNo).$('a.x-submenu-toggle').click();
- 	element.all(by.css('#main-menu div div > ul > li')).get(data.listNo).all(by.css('ul > li')).get(data.createNo).click();
+	element.all(by.css('#main-menu div div > ul > li')).get(data.listNo).all(by.css('ul > li')).get(data.createNo).$('a').click();
 	// Fill in the club
 	var schema = data.newSchema.properties;
 	for (key in schema) {

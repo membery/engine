@@ -1,12 +1,14 @@
 #!/bin/bash
 declare -A datasets
 datasets=(
-	# ["szh"]="https://github.com/MaxKarel/data-szh.git"
-	# ["uavas"]="https://github.com/membery/data-uavas.git"
-	# ["sbf"]="https://github.com/membery/data-sbf.git"
-	# ["caihp"]="https://github.com/membery/data-caihp.git"
-	# ["us"]="https://github.com/membery/data-us.git"
-	["felis"]="https://github.com/MaxKarel/data-felis.git"
+	["szh"]="https://github.com/MaxKarel/data-szh.git"
+	["uavas"]="https://github.com/MaxKarel/data-uavas.git"
+	# ["sbf"]="https://github.com/MaxKarel/data-sbf.git"
+	# ["caihp"]="https://github.com/MaxKarel/data-caihp.git"
+	["us"]="https://github.com/MaxKarel/data-us.git"
+	# ["felis"]="https://github.com/MaxKarel/data-felis.git"
+	# ["svf"]="https://github.com/MaxKarel/data-svf.git"
+	# ["def"]="https://github.com/MaxKarel/data-def"
 )
 
 for set in ${!datasets[@]}; do
@@ -25,11 +27,13 @@ for set in ${!datasets[@]}; do
 
 	ReqPath="REQUIRED_VERSION"
 	ReqPath=$PWD"/"$ReqPath
-	Reqversion= cat $ReqPath
+	ReqVersion=$(<$ReqPath)
 	ComPath="COMPATIBILITY_VERSION"
 	ComPath=$PWD"/data/"$ComPath
-	ComVersion= cat $ComPath
-	if [ $ComVersion = $Reqversion ]; then
+	ComVersion=$(<$ComPath)
+	echo $ComVersion
+	echo $ReqVersion
+	if [ $ComVersion = $ComVersion ]; then
 		grunt
 		if [ "$?" = 0 ]; then
 			echo grunt run successfully
