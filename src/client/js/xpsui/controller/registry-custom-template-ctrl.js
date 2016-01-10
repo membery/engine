@@ -74,6 +74,24 @@
 				return;
 			}
 
+			if ($routeParams.template == 'createStadium.html') {
+				$http({ method : 'GET',
+					url: '/udao/getBySchema/uri~3A~2F~2Fregistries~2FstadiumRequests~23views~2FstadiumRegistrationSolver~2Fview'
+						+ '/' + $routeParams.id})
+				.success(function(data, status, headers, config) {
+					delete data.id;
+					var copyFields = [
+									{ 'path': 'model.obj', 'value': data }
+					];
+					var uri = '/registry/new/uri~3A~2F~2Fregistries~2Fstadiums~23views~2Fstadium';
+					navigationService.navigateToPath(uri, copyFields);
+					$location.path(uri);
+				}).error(function(err) {
+					notificationFactory.error(err);
+				});
+				return;
+			}
+
 			if ($routeParams.template == 'personalAccountActivation.html') {
 				$http({ method : 'GET',
 					url: '/udao/getBySchema/uri~3A~2F~2Fregistries~2Fpeople~23views~2Ffullperson~2Fview'
