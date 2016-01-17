@@ -87,7 +87,9 @@
 
 				scope.fieldWeigth = function(field) {
 					if (field.render && field.render.width) {
-						if (field.render.width == 'narrow') {
+						if (field.render.width == 'super-narrow') {
+							return '2 0 70px';
+						} else if (field.render.width == 'narrow') {
 							return '2 0 100px';
 						} else if (field.render.width == 'wide') {
 							return '50 0 150px';
