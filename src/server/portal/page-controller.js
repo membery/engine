@@ -101,11 +101,12 @@ PageController.prototype.competitionGroupsList = function(req, res, next) {
 
 PageController.prototype.competitionsList = function(req, res, next) {
 	var gid = req.query.gid;
+	var that = this;
 
 	var qf = QueryFilter.create();
 
 	if (gid) {
-	qf.addCriterium('baseData.competitionGroup.oid', QueryFilter.operation.EQUAL, gid);
+		qf.addCriterium('baseData.competitionGroup.oid', QueryFilter.operation.EQUAL, gid);
 	}
 
 	this.competitionDao.list(qf, function(err, data) {
@@ -125,8 +126,32 @@ PageController.prototype.competitionsList = function(req, res, next) {
 			});
 		}
 
-		result.sort(function(a, b) { return b.lvl - a.lvl; });
-		res.json(result);
+		async.map(result, function(i, cb) {
+			var qfcp = QueryFilter.create();
+			qfcp.addCriterium('baseData.competition.oid', QueryFilter.operation.EQUAL, i.id);
+			that.competitionPartDao.list(qfcp, function(cpdErr, cp) {
+				if (cpdErr) {
+					cb(err);
+					return;
+				}
+				i.parts = [];
+
+				for (var p in cp) {
+					i.parts.push({
+						id: cp[p].id,
+						name: cp[p].baseData.name,
+						lvl: cp[p].baseData.lvl
+					});
+				}
+
+				i.parts.sort(function(a, b) { return b.lvl -a.lvl; });
+				cb();
+			});
+		},
+		function(err) {
+			result.sort(function(a, b) { return b.lvl - a.lvl; });
+			res.json(result);
+		});
 	});
 
 };
@@ -136,7 +161,7 @@ PageController.prototype.competitionMatchesAll = function(req, res, next) {
 
 	var qf = QueryFilter.create();
 
-	qf.addCriterium('baseData.competition.oid', QueryFilter.operation.EQUAL, cid);
+	qf.addCriterium('baseData.competitionPart.oid', QueryFilter.operation.EQUAL, cid);
 	qf.addSort('baseData.matchRound', QueryFilter.sort.ASC);
 
 	var schemaName = 'uri://registries/refereeReports#views/refereeReports-km/view';
@@ -196,7 +221,7 @@ PageController.prototype.competitionMatches = function(req, res, next) {
 	var qf = QueryFilter.create();
 
 	qf.addCriterium('baseData.matchDate', QueryFilter.operation.LESS_EQUAL, require('../DateUtils.js').DateUtils.dateToReverse(require('../DateUtils.js').DateUtils.dateAddDays(new Date(), 10)));
-	qf.addCriterium('baseData.competition.oid', QueryFilter.operation.EQUAL, cid);
+	qf.addCriterium('baseData.competitionPart.oid', QueryFilter.operation.EQUAL, cid);
 	qf.addSort('baseData.matchDate', QueryFilter.sort.DESC);
 	qf.setLimit(25);
 
@@ -274,17 +299,18 @@ PageController.prototype.competitionResults = function(req, res, next) {
 	// FIXME make this config public in configuration
 	var fieldsPairing = {
 		'ROSTER_NAME': 'baseData.prName'
-	}
-	qf.addCriterium('baseData.competition.oid', QueryFilter.operation.EQUAL, cid);
+	};
 
-	pageController.competitionPartDao.list(qf, function(err2, parts) {
+	pageController.competitionPartDao.get(cid, function(err2, part) {
 		if (err2) {
 			log.error('Failed to get list of parts for competition %s', cid, err);
 			next(err);
 			return;
 		}
 
-		model = _.get(parts[0], 'baseData.competitionModel');
+		model = _.get(part, 'baseData.competitionModel');
+
+		qf.addCriterium('baseData.competitionPart.oid', QueryFilter.operation.EQUAL, part.id);
 
 		pageController.refereeReportsDao.list(qf, function(err, data) {
 			if (err) {
@@ -304,10 +330,47 @@ PageController.prototype.competitionResults = function(req, res, next) {
 				var guestId = data[i].baseData.awayClub.oid;
 
 				if (typeof result[homeId] === 'undefined') {
-					result[homeId] = { points: 0, matches: 0, score: 0, wins: 0, setsWon: 0, setsLost: 0, ballsWon: 0, ballsLost: 0};
+					var homePreId = _.findIndex(_.get(part, 'listOfTeam.team', []), function(o) {
+						return _.get(o, 'team.oid', 0) === homeId;
+					});
+
+					var homeTeamDef = {};
+					if (homePreId > -1) {
+						homeTeamDef = part.listOfTeam.team[homePreId];
+					}
+					
+					console.log(homePreId, homeTeamDef); 
+					result[homeId] = {
+						points: parseInt(_.get(homeTeamDef, 'initialPoints', 0)),
+						matches:  parseInt(_.get(homeTeamDef, 'initialMatches', 0)),
+						score:  parseInt(_.get(homeTeamDef, 'initialScore', 0)),
+						wins:  parseInt(_.get(homeTeamDef, 'initialWins', 0)),
+						setsWon:  parseInt(_.get(homeTeamDef, 'initialSetsWon', 0)),
+						setsLost:  parseInt(_.get(homeTeamDef, 'initialSetsLost', 0)),
+						ballsWon:  parseInt(_.get(homeTeamDef, 'initialBallsWon', 0)),
+						ballsLost:  parseInt(_.get(homeTeamDef, 'initialBallsLost', 0)),
+					};
 				}
 				if (typeof result[guestId] === 'undefined') {
-					result[guestId] = { points: 0, matches: 0, score: 0, wins: 0, setsWon: 0, setsLost: 0, ballsWon: 0, ballsLost: 0};
+					var guestPreId = _.findIndex(_.get(part, 'listOfTeam.team', []), function(o) {
+						return _.get(o, 'team.oid', 0) === guestId;
+					});
+
+					var guestTeamDef = {};
+					if (guestPreId > -1) {
+						guestTeamDef = part.listOfTeam.team[guestPreId];
+					}
+					console.log(guestPreId, guestTeamDef); 
+					result[guestId] = {
+						points: parseInt(_.get(guestTeamDef, 'initialPoints', 0)),
+						matches:  parseInt(_.get(guestTeamDef, 'initialMatches', 0)),
+						score:  parseInt(_.get(guestTeamDef, 'initialScore', 0)),
+						wins:  parseInt(_.get(guestTeamDef, 'initialWins', 0)),
+						setsWon:  parseInt(_.get(guestTeamDef, 'initialSetsWon', 0)),
+						setsLost:  parseInt(_.get(guestTeamDef, 'initialSetsLost', 0)),
+						ballsWon:  parseInt(_.get(guestTeamDef, 'initialBallsWon', 0)),
+						ballsLost:  parseInt(_.get(guestTeamDef, 'initialBallsLost', 0)),
+					};
 				}
 
 				if (['Zobrazený', 'Schválený', 'Zatvorený'].indexOf(reportState) < 0) {
