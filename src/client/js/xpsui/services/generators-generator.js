@@ -232,6 +232,18 @@
 						sorts: [ { f:'baseData.date', o: 'asc'}]
 					}
 				}).success(function(terms) {
+					function sortByRoundNumber(array) {
+						var re = /\D/g;
+						array.sort(function(a, b) {
+							return(parseInt(a.baseData.name.replace(re, ""), 10) - parseInt(b.baseData.name.replace(re, ""), 10));	
+						});
+						return(array);
+					};
+
+					if (terms[0].baseData.name.match(/[0-9\-_]/)) {
+						terms = sortByRoundNumber(terms);
+					}
+
 					var teams=entity.listOfTeam.team;
 					var baseDataCP=entity.baseData; //baseDataCP is baseData of competitionParts
 
