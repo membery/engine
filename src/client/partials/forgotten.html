@@ -1,50 +1,47 @@
-<section id="LoginForm" ng-app="doc.ui-ace" class="ng-scope">
-	<form  name="registerForm" class="ng-pristine ng-valid form form-horizontal">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-6 col-md-offset-3">
-					<div ng-show="alert" class="alert alert-danger alert-dismissable">
-						<button type="button" class="close" data-dismiss="alert"
-							aria-hidden="true">&times;</button>
-						<strong>Authentication failure!</strong> {{alert}}
+<section id="LoginForm" ng-app="doc.ui-ace">
+	<form  name="registerForm" class="ng-pristine ng-valid form form-horizontal">		
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div ng-show="alert" class="alert alert-danger alert-dismissable">
+					<button type="button" class="close" data-dismiss="alert"
+						aria-hidden="true">&times;</button>
+					<strong>Authentication failure!</strong> {{alert}}
+				</div>
+			</div>
+		</div>
+		<div ng-show="!done">
+			<fieldset>
+				<span class="x-fieldset-title">{{'forgotten.password.title'|translate}}</span>
+
+				<div class="x-fieldset-row">
+					<div class="x-fieldset-label x-required">
+						<label for="name">{{'forgotten.password.email'|translate}}</label>
+					</div>
+					<div class="x-fieldset-value">
+						<input type="text" id="name" name="name" ng-model="email" required
+								placeholder="{{'forgotten.password.email.placeholder'|translate}}"
+							autocomplete="off">
 					</div>
 				</div>
-			</div>
-			<div ng-show="!done" class="row">
-				<div class="col-md-6 col-md-offset-3">
-					<fieldset>
-						<legend>{{'forgotten.password.title'|translate}}</legend>
 
-						<div class="form-group">
-							<label for="name" class="col-sm-3 control-label">{{'forgotten.password.email'|translate}}</label>
-							<div class="col-sm-9">
-								<input type="text" id="name" name="name" ng-model="email" required
-										placeholder="{{'forgotten.password.email.placeholder'|translate}}" class="ng-pristine ng-valid form-control"
-									autocomplete="off">
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label for="name" class="col-sm-3 control-label">{{'forgotten.password.verify'|translate}}</label>
-							<div class="col-sm-9">
-								<div id="captcha" re-captcha ng-model="capcha"></div>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-sm-3">&nbsp;</div>
-							<div class="col-sm-7">
-								<div class="btn-group-vertical">
-									<button type="submit" ng-click="submit()" class="btn btn-primary pull-right" ng-disabled="registerForm.$invalid">{{'forgotten.password.submit'|translate}}</button>
-								</div>
-							</div>
-							<div class="col-sm-2 forgotten">
-								<a href="#/login"> {{'login.title'|translate}}</a>
-							</div>
-						</div>
-					</fieldset>
+				<div class="x-fieldset-row">
+					<label for="name" class="col-sm-3 control-label">{{'forgotten.password.verify'|translate}}</label>
+					<div class="col-sm-9">
+						<div id="captcha" re-captcha ng-model="capcha"></div>
+					</div>
 				</div>
-			</div>
+				<br>
+				<div class="x-fieldset-row">
+					<div class="x-fieldset-label">
+						<a href="#/login" class="forgotten" style="left:10px;"><i class="fa fa-arrow-circle-left" ></i>{{'login.title'|translate}}</a>
+					</div>
+					<div class="x-fieldset-value">
+						<div>
+							<button type="submit" ng-click="submit()" class="btn btn-primary pull-right" ng-disabled="registerForm.$invalid">{{'forgotten.password.submit'|translate}}</button>
+						</div>
+					</div>
+				</div>
+			</fieldset>
 		</div>
 	</form>
 </section>

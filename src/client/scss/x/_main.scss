@@ -328,3 +328,8 @@ a.forgotten {
 	background-repeat: no-repeat;
 	background-position: center;
 }
+@media (max-width: 340px) {
+	.x-login-photo {
+		display: none;
+	}
+}
