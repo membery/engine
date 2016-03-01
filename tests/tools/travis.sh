@@ -2,12 +2,12 @@
 declare -A datasets
 datasets=(
 	["szh"]="https://github.com/MaxKarel/data-szh.git"
-	["uavas"]="https://github.com/MaxKarel/data-uavas.git"
+	# ["uavas"]="https://github.com/MaxKarel/data-uavas.git"
 	# ["sbf"]="https://github.com/MaxKarel/data-sbf.git"
 	# ["caihp"]="https://github.com/MaxKarel/data-caihp.git"
-	["us"]="https://github.com/MaxKarel/data-us.git"
+	# ["us"]="https://github.com/MaxKarel/data-us.git"
 	# ["felis"]="https://github.com/MaxKarel/data-felis.git"
-	# ["svf"]="https://github.com/MaxKarel/data-svf.git"
+	["svf"]="https://github.com/MaxKarel/data-svf.git"
 	# ["def"]="https://github.com/MaxKarel/data-def"
 )
 

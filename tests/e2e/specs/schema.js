@@ -79,7 +79,7 @@ describe('General test:', function() {
 						if (!error && response.statusCode == 200) {
 							schemas[type].newSchema = (JSON.parse(body));
 							console.log('n:<<'+schemas[type].newSchema.title+'>> w/ StatusCode==200');
-			   			} else {if (!error) {console.log('statusCode=='+response.statusCode);done(false)} else {console.log('* error *');done(false)}}
+			   			} else {if (!error) {console.log('statusCode=='+response.statusCode+'  '+key);done(false)} else {console.log('* error *');done(false)}}
         			});
     			})(key, options);
 				options.url = schemas[key].search;
@@ -88,7 +88,7 @@ describe('General test:', function() {
 						if (!error && response.statusCode == 200) {
 							schemas[type].searchSchema = (JSON.parse(body));
 							console.log('s:<<'+schemas[type].searchSchema.title+'>> w/ StatusCode==200');
-			   			} else {if (!error) {console.log('statusCode=='+response.statusCode);done(false)} else {console.log('* error *');done(false)}}
+			   			} else {if (!error) {console.log('statusCode=='+response.statusCode+'  '+key);done(false)} else {console.log('* error *');done(false)}}
         			});
     			})(key, options);
 			}
@@ -96,7 +96,7 @@ describe('General test:', function() {
 	});
 
 	for (key in schemas) {
-		if (key==key) { //quick way to run only one test
+		if (key=='people') { //quick way to run only one test
 		(function(key) {
 			it('should create '+key, function() {
 				console.log(schemas[key].newSchema.title);
@@ -107,11 +107,22 @@ describe('General test:', function() {
 					for(i=1;i<foo.length;i++) {
 						if (!(foo[i]==undefined)) {bar[i-1]=foo[i]}
 					}
-					console.log(bar);
 					interact.create(schemas[foo[0]],(bar[0] != undefined ? bar : []));
 				}
 				interact.createFull(schemas[key], key);
 				interact.check(schemas[key],key);
+				if (key.indexOf('request') > -1) {
+					fs.stat(__dirname+'/../../../data/tests/custom.js', function(err, stat) {
+						if (!err) {
+							var custom = require('../../../data/tests/custom.js');
+							console.log('starting customtests');
+							custom.requests();
+						}else {
+							console.log('there was no custom test in data folder OR the path specified is incorrect');
+							console.log(err);
+						}
+					});
+				}
 			});
 			it('should erase '+key, function() {
 				if (schemas[key].newSchema.table == 'people') {interact.eraseOne(schemas['people'].newSchema)}
@@ -127,5 +138,4 @@ describe('General test:', function() {
 		})(key);
 	}
 	}
-
 });

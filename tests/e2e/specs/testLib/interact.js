@@ -8,7 +8,6 @@ var iElement = require('./element.js');
 function create(data, options){
 	element.all(by.css('#main-menu div div > ul > li')).get(data.listNo).$('a.x-submenu-toggle').click();
  	element.all(by.css('#main-menu div div > ul > li')).get(data.listNo).all(by.css('ul > li')).get(data.createNo).$('a').click();
-	browser.sleep(7000);
 	var schema = data.newSchema.properties;
 	for (key in schema) {
 		(function (schemicka,k){			//schemicka  =  jeden block (baseData)
@@ -106,8 +105,7 @@ function deleteDocumentFromDatabase(schema){
 			if (!(prop.hasOwnProperty('sequence') || prop.hasOwnProperty('objectLink2') || (prop.hasOwnProperty('type') && prop.type=='number') || prop.hasOwnProperty('render')) ) {
 				attr = key+'.'+keys;
 				val = key+' '+keys;
-				var querry = (obj={}, obj[attr]=val, obj);
-
+				querry = (obj={}, obj[attr]=val, obj);
 				break;
 			}
 		}
