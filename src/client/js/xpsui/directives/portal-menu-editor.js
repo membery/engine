@@ -143,6 +143,7 @@
 					openIcon.addClass('icon-circle-o');
 					console.log('name: ' + scope.index.subElements);
 				}
+				
 
 				elm.append(header);
 				elm.append(editPanel);
